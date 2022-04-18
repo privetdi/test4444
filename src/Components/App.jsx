@@ -1,65 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../SCSS/App.scss";
+import React from "react";
 import Note from "./Note";
 
+// реализовать интерфейс заметок
+// по кнопке + заметки должны добавляться
+// заметки должны хранится в стейте компонента
+// Note - компонент одной заметки
+// заметки могут быть с одинаковыми названиями
+// заметки должны удалятся по клику на Note
+// заметки должны быть отсортированы по алфавиту
+// количество заметок должно быть подсчитано в header
+// 30 мин на реализацию
+
 const App = () => {
-  const [isEditing, setEditing] = useState(false);
-  const inputRef = useRef();
-  const [inputValue, setInputValue] = useState("");
-  const [notes, setNotes] = useState([]);
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, [isEditing]);
-
-  const updateNoteText = event => {
-    setInputValue(event.target.value);
-  };
-
-  const handleKeyPress = e => {
-    if (e.key === "Enter") {
-      addTask();
-    }
-  };
-
-  const addTask = () => {
-    if (!inputValue.replace(/\s/, "").length) {
-      return;
-    }
-
-    const newNotesArray = [...notes, inputValue];
-    setNotes(newNotesArray);
-    setInputValue("");
-  };
-
-  const deleteTask = index => {
-    const notesArray = [...notes];
-    notesArray.splice(index, 1);
-    setNotes(notesArray);
-  };
-
   return (
     <>
-      <div className="header">React Hooks - TODO List Tutorial</div>
+      <div className="header">Notes list, total {'{Total notes must be here}'}</div>
       <div className="container">
-        <div className="btn" onClick={addTask}>
+        {/* button must add notes */}
+        <div className="btn">
           +
         </div>
         <input
-          ref={inputRef}
           type="text"
+          value={'123'}
           className="textInput"
-          value={inputValue}
-          onChange={updateNoteText}
-          onKeyPress={handleKeyPress}
+          autoFocus
         />
-        {notes.map((item, index) => (
-          <Note
-            item={item}
-            onClick={() => deleteTask(index)}
-            key={`task${index}`}
-          />
-        ))}
+        {/* render notes here */}
       </div>
     </>
   );

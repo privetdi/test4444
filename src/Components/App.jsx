@@ -1,3 +1,4 @@
+import { useState } from "react";
 import React from "react";
 import Note from "./Note";
 
@@ -12,21 +13,55 @@ import Note from "./Note";
 // количество заметок должно быть подсчитано в header
 
 const App = () => {
+  let [notes, setNotes] = useState(["123", "456", "789"]);
+  let [value, setValue] = useState("123");
+
+  let onchange = (e) => {
+    setValue(e.target.value);
+  };
+
+  let onclick = () => {
+    if (value === "") {
+      setValue("");
+      return;
+    }
+    setNotes([...notes, value]);
+    setValue("");
+  };
+
+  let delet = (item) => {
+    setNotes(notes.filter((note) => note !== item));
+  };
   return (
     <>
-      <div className="header">Notes list, total {'{Total notes must be here}'}</div>
+      <div className="header">Notes list, total {notes.length}</div>
       <div className="container">
         {/* button must add notes */}
-        <div className="btn">
+        <div className="btn" onClick={onclick}>
           +
         </div>
         <input
           type="text"
-          value={'123'}
+          value={value}
           className="textInput"
           autoFocus
+          onChange={onchange}
         />
-        {/* render notes here */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
+          {notes.map((item, index) => {
+            return (
+              <div key={index} onClick={() => delet(item)}>
+                {item}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
